@@ -18,7 +18,7 @@ class PhoneAuthentication extends StatefulWidget {
 
 class _PhoneAuthenticationState extends State<PhoneAuthentication> {
   // Constants
-  static const double _horizontalPadding = 24.0;
+  static const double _horizontalPadding = 16.0;
   static const double _logoSize = 120.0;
   static const double _borderRadius = 16.0;
   static const String _defaultCountryCode = "CM";
@@ -49,82 +49,147 @@ class _PhoneAuthenticationState extends State<PhoneAuthentication> {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: theme.background,
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  _buildSettingsRow(context),
-                  const SizedBox(height: 39),
-                  _buildHeader(context),
-                  const SizedBox(height: 32),
-                  _buildPhoneInput(context),
-                  if (_errorMessage != null) ...[
-                    const SizedBox(height: 16),
-                    _buildErrorMessage(context),
-                  ],
-                  const SizedBox(height: 48),
-                  _buildSubmitButton(context),
-                  const SizedBox(height: 20),
-                  // OR component
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 50,
-                        child: Divider(
-                          color: theme.textSecondary,
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Text(
-                        "OR",
-                        style: TextStyle(
-                          color: theme.textSecondary,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      SizedBox(
-                        width: 50,
-                        child: Divider(
-                          color: theme.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 48),
-                  AppButton(
-                    text: "Google Sign In",
-                    onPressed: _isLoading ? null : _handleGoogleSignIn,
-                    disabled: _isLoading || _loadindGoogle,
-                    customIconWidget: SvgPicture.string(
-                      googleSvgString,
-                      height: 24,
-                      width: 24,
-                    ),
-                    type: AppButtonType.outlined,
-                    textColor: theme.textPrimary,
-                    borderRadius: 16,
-                    padding: const EdgeInsets.all(10),
-                    elevation: 0,
-                  ),
-                  const SizedBox(height: 24),
-                ],
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.sizeOf(context).height * 0.5,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+                bottom: Radius.circular(8),
+              ),
+              image: DecorationImage(
+                image: AssetImage("assets/bg_whyspee.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              height: MediaQuery.sizeOf(context).height * 0.5,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: RadialGradient(colors: [
+                  Colors.white.withOpacity(0.4),
+                  Colors.white.withOpacity(0.3),
+                  Colors.white.withOpacity(0.2),
+                  Colors.white.withOpacity(0.1),
+                  Colors.black.withOpacity(0.1),
+                  Colors.black.withOpacity(0.2),
+                  Colors.black.withOpacity(0.3),
+                  Colors.black.withOpacity(0.4),
+                ]),
+              ),
+              child: Center(
+                child: CircleAvatar(
+                  radius: 70,
+                  backgroundImage: AssetImage("assets/logo.jpg"),
+                ),
               ),
             ),
           ),
-        ),
+          SafeArea(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: _horizontalPadding),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 5),
+                      _buildSettingsRow(context),
+                      // const SizedBox(height: 39),
+                      // _buildHeader(context),
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.4,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        // S.of(context).enterYourPhoneNumber,
+                        "Login",
+                        style: textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: colorScheme.onSurface,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text("Let's start again to chat with friend"),
+                      const SizedBox(height: 20),
+                      Text(
+                        "Phone Number",
+                        style: textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
+                            fontSize: 18),
+                      ),
+                      SizedBox(height: 8),
+                      _buildPhoneInput(context),
+                      if (_errorMessage != null) ...[
+                        const SizedBox(height: 16),
+                        _buildErrorMessage(context),
+                      ],
+                      const SizedBox(height: 20),
+                      _buildSubmitButton(context),
+                      const SizedBox(height: 30),
+                      // OR component
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 50,
+                            child: Divider(
+                              color: theme.textSecondary,
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            "Or",
+                            style: TextStyle(
+                              color: theme.textSecondary,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          SizedBox(
+                            width: 50,
+                            child: Divider(
+                              color: theme.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      AppButton(
+                        text: "Google Sign In",
+                        onPressed: _isLoading ? null : _handleGoogleSignIn,
+                        disabled: _isLoading || _loadindGoogle,
+                        customIconWidget: SvgPicture.string(
+                          googleSvgString,
+                          height: 24,
+                          width: 24,
+                        ),
+                        type: AppButtonType.outlined,
+                        textColor: theme.textPrimary,
+                        borderRadius: 16,
+                        padding: const EdgeInsets.all(10),
+                        elevation: 0,
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

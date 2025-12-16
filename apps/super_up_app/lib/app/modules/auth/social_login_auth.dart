@@ -98,8 +98,6 @@ class SocialLoginAuth {
           context.pop(); // Dismiss loading
           try {
             await FirebaseAuth.instance.signInWithCredential(credential);
-            await refreshToken();
-
             AppNavigation.toPage(
               context,
               ContinueGetDataScreen(
@@ -189,24 +187,23 @@ class SocialLoginAuth {
           identifier: user.uid,
           type: RegisterMethod.gmail,
         );
-        await refreshToken();
-        await profileService.getMyProfile();
+
         // Verify if user exists in the system
-        // final authRes = await authService.checkMethod(
-        //   authType: RegisterMethod.gmail,
-        //   authId: user.uid,
-        // );
+        final authRes = await authService.checkMethod(
+          authType: RegisterMethod.gmail,
+          authId: user.uid,
+        );
 
-        // Utils.printLog("authRes from google login : $authRes");
+        Utils.printLog("authRes from google login : $authRes");
 
-        // if (authRes == null) {
-        //   // User must complete data
-        //   AppNavigation.toPage(
-        //     context,
-        //     ContinueGetDataScreen(socialUser: socialUser),
-        //   );
-        //   return;
-        // }
+        if (authRes == null) {
+          // User must complete data
+          AppNavigation.toPage(
+            context,
+            ContinueGetDataScreen(socialUser: socialUser),
+          );
+          return;
+        }
         // User exists, proceed to login
         await vSafeApiCall<SMyProfile>(
           onLoading: () async {
