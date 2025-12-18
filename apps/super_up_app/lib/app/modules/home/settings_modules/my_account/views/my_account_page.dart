@@ -107,12 +107,12 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                          AppAuth.myProfile.authMethod.type.name.toUpperCase()),
-                      Text(
-                        AppAuth.myProfile.authMethod.identifier.toString(),
-                        style: const TextStyle(fontSize: 15),
-                      ),
+                      // Text(
+                      //     AppAuth.myProfile.authMethod.type.name.toUpperCase()),
+                      // Text(
+                      //   AppAuth.myProfile.authMethod.identifier.toString(),
+                      //   style: const TextStyle(fontSize: 15),
+                      // ),
                     ],
                   ),
                 ),

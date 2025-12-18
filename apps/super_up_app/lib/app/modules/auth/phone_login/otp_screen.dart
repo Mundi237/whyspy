@@ -334,26 +334,35 @@ class _OTPScreenState extends State<OTPScreen> {
       },
       onSuccess: (response) async {
         try {
-          final authRes = await authService.checkMethod(
-            authType: RegisterMethod.phone,
-            authId: widget.userPhone,
-          );
+          // final authRes = await authService.checkMethod(
+          //   authType: RegisterMethod.phone,
+          //   authId: widget.userPhone,
+          // );
 
-          if (authRes == null) {
-            // User must complete data
-            AppNavigation.toPage(
-              context,
-              ContinueGetDataScreen(
-                socialUser: SocialUser(
-                  authId: widget.userPhone,
-                  type: RegisterMethod.phone,
-                ),
-              ),
-              isRemoveAll: true,
-            );
-            return;
-          }
+          // if (authRes == null) {
+          //   // User must complete data
+          //   AppNavigation.toPage(
+          //     context,
+          //     ContinueGetDataScreen(
+          //       socialUser: SocialUser(
+          //         authId: widget.userPhone,
+          //         type: RegisterMethod.phone,
+          //       ),
+          //     ),
+          //     isRemoveAll: true,
+          //   );
+          //   return;
+          // }
+          await refreshToken();
 
+          await profileService.getMyProfile().then((e) async {
+            Navigator.pop(context);
+            await VAppPref.setMap(SStorageKeys.myProfile.name, e.toMap());
+            await VAppPref.setBool(SStorageKeys.isLogin.name, true);
+            _homeNav(context);
+          });
+          // print(result);
+          return;
           await vSafeApiCall<SMyProfile>(
             onLoading: () async {
               // Loading already shown

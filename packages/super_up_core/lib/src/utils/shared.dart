@@ -33,7 +33,7 @@ BoxDecoration sMessageBackground({
       }
     }
   }
-  
+
   // Default wallpaper logic
   if (isDark) {
     return const BoxDecoration(
@@ -66,8 +66,10 @@ abstract class AppAuth {
     _profile = null;
   }
 
-  static bool get isPhoneLogin => myProfile.authMethod.type == RegisterMethod.phone;
-  static bool get isLoginByEmail => myProfile.authMethod.type == RegisterMethod.email;
+  static bool get isPhoneLogin =>
+      myProfile.authMethod?.type == RegisterMethod.phone;
+  static bool get isLoginByEmail =>
+      myProfile.authMethod?.type == RegisterMethod.email;
 
   static SMyProfile get myProfile {
     if (_profile != null) {

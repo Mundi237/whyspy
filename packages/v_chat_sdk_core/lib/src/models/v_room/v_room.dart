@@ -67,7 +67,7 @@ class VRoom {
   /// A flag used for selecting the room, for example in a multi-select scenario.
   bool isSelected = false;
 
-  String get thumbImageS3 => SConstants.baseMediaUrl + thumbImage;
+  String get thumbImageS3 => /*SConstants.baseMediaUrl +*/ thumbImage;
 
   String get realTitle => nickName ?? title;
 
@@ -150,9 +150,9 @@ class VRoom {
               );
 
   VRoom.fromLocalMap(Map<String, dynamic> map)
-      : id = map[RoomTable.columnId] as String,
-        roomType =
-            VRoomType.values.byName(map[RoomTable.columnRoomType] as String),
+      : id = map[RoomTable.columnId] as String? ?? '',
+        roomType = VRoomType.values
+            .byName(map[RoomTable.columnRoomType] as String? ?? ''),
         title = map[RoomTable.columnTitle] as String,
         thumbImage = map[RoomTable.columnThumbImage] as String,
         transTo = map[RoomTable.columnTransTo] as String?,
@@ -233,7 +233,7 @@ class VRoom {
     return false;
   }
 
-  bool get isCta => annonce != null;
+  bool get isCta => roomType == VRoomType.a;
 
   bool get isTransEnable => transTo != null;
 

@@ -9,7 +9,7 @@ abstract class SConstants {
   // static const _productionBaseUrl = "192.168.1.120:3000";
 
   ///your app name
-  static const appName = "Whispee";
+  static const appName = "Whizpee";
 
   ///android and ios admob ids [https://developers.google.com/admob/flutter/quick-start] [https://developers.google.com/ad-manager/mobile-ads-sdk/flutter/quick-start]
   ///if it null it will stop showing for the banners
@@ -39,7 +39,8 @@ abstract class SConstants {
   ///don't update update only if you use server ip just return your server ip with port [12.xxx.xxx:80/]
   static String get baseMediaUrl {
     ///if you don't setup domain yet you can return the server ip like this [return Uri.parse("http://ip:port/");]
-    return "https://$_productionBaseUrl/";
+    // return "https://$_productionBaseUrl/";
+    return '';
     // return "http://$_productionBaseUrl/";
   }
 

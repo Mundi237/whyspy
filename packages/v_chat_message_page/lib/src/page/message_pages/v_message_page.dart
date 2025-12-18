@@ -50,6 +50,12 @@ class VMessagePage extends StatelessWidget {
           vRoom: vRoom,
           language: localization,
         );
+      case VRoomType.a:
+        return VSingleView(
+          vMessageConfig: vMessageConfig,
+          vRoom: vRoom,
+          language: localization,
+        );
     }
   }
 }

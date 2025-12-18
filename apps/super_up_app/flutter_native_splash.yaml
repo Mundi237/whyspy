@@ -3,4 +3,4 @@ flutter_native_splash:
   android: true
   ios: true
   color: "#EEEDE7" # Background color
-  image: assets/logo.png # Path to your splash image
+  image: assets/logo.jpg # Path to your splash image

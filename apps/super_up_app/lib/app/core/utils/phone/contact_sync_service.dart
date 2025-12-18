@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -7,7 +9,7 @@ import 'package:super_up_core/super_up_core.dart';
 import 'package:v_chat_sdk_core/v_chat_sdk_core.dart';
 import 'package:v_platform/v_platform.dart';
 
-import '../../../../main.dart';
+// import '../../../../main.dart';
 
 class ContactSyncService {
   List<VContact> currentContacts = [];
@@ -149,7 +151,6 @@ class ContactSyncService {
   }
 
   String getSearchLabelForUsersSearch() {
-
     if (isPlatformSupported) {
       return S.current.searchByUserNameOrFullUserEmail;
     } else {

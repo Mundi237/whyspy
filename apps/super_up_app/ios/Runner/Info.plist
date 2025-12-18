@@ -3,7 +3,7 @@
 <plist version="1.0">
 	<dict>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
-		<true />
+		<true/>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
@@ -56,7 +56,7 @@
 		<key>GADApplicationIdentifier</key>
 		<string>ca-app-pub-5480704135551772~7567166699</string>
 		<key>GoogleUtilitiesAppDelegateProxyEnabled</key>
-		<false />
+		<false/>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>comgooglemaps</string>
@@ -74,15 +74,15 @@
 			<string>tomtomgo</string>
 		</array>
 		<key>LSRequiresIPhoneOS</key>
-		<true />
+		<true/>
 		<key>LSSupportsOpeningDocumentsInPlace</key>
-		<true />
+		<true/>
 		<key>UIFileSharingEnabled</key>
-		<true />
+		<true/>
 		<key>NSAllowsArbitraryLoads</key>
-		<true />
+		<true/>
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
-		<true />
+		<true/>
 		<key>NSCameraUsageDescription</key>
 		<string>to allow user to take photo and video and upload it to server</string>
 		<key>NSContactsUsageDescription</key>
@@ -94,18 +94,15 @@
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 		<string>To allow send current location pin in chats</string>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>The app needs access to location when in the background to send inside app messages
-			with the new real location.</string>
+		<string>The app needs access to location when in the background to send inside app messages with the new real location.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>The app needs access to location to send in chat.</string>
 		<key>NSMicrophoneUsageDescription</key>
-		<string>to allow user to take video with voice for more info and send it to the peer user
-			and upload it to server</string>
+		<string>to allow user to take video with voice for more info and send it to the peer user and upload it to server</string>
 		<key>NSPhotoLibraryAddUsageDescription</key>
 		<string>Super-up would like to save photos from the app chat to your gallery</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>To allow user to select photo or photos share with his friends in chats and upload
-			it to server</string>
+		<string>To allow user to select photo or photos share with his friends in chats and upload it to server</string>
 		<key>NSUserActivityTypes</key>
 		<array>
 			<string>INSendMessageIntent</string>
@@ -310,20 +307,19 @@
 			</dict>
 		</array>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		<true />
+		<true/>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>
 			<string>remote-notification</string>
 			<string>voip</string>
 		</array>
-
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
 		<key>UIStatusBarHidden</key>
-		<false />
+		<false/>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
@@ -338,8 +334,8 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<false />
+		<false/>
 		<key>ITSAppUsesNonExemptEncryption</key>
-		<false />
+		<false/>
 	</dict>
 </plist>

@@ -72,7 +72,15 @@ enum VGroupMsgInfo {
 //   }
 // }
 
-enum VMessageCallStatus { ring, canceled, timeout, rejected, finished, inCall, sessionEnd }
+enum VMessageCallStatus {
+  ring,
+  canceled,
+  timeout,
+  rejected,
+  finished,
+  inCall,
+  sessionEnd
+}
 
 enum VSocketStateType { connected, connecting }
 
@@ -80,7 +88,7 @@ enum VSocketStateType { connected, connecting }
 ///g is group chat
 ///b is broadcast chat
 ///o order room!
-enum VRoomType { s, g, b, o }
+enum VRoomType { s, g, b, o, a }
 
 extension StrType on VRoomType {
   bool get isGroup => this == VRoomType.g;
@@ -92,6 +100,8 @@ extension StrType on VRoomType {
   bool get isBroadcast => this == VRoomType.b;
 
   bool get isOrder => this == VRoomType.o;
+
+  bool get isAnnoncement => this == VRoomType.a;
 }
 
 enum VMessageEmitStatus {
@@ -138,7 +148,16 @@ enum VRoomTypingEnum { stop, typing, recording }
 
 enum VAttachEnumRes { media, files, location }
 
-enum VCallStatus { ring, canceled, timeout, offline, rejected, finished, serverRestart, inCall }
+enum VCallStatus {
+  ring,
+  canceled,
+  timeout,
+  offline,
+  rejected,
+  finished,
+  serverRestart,
+  inCall
+}
 
 enum VNotificationType {
   groupChat,

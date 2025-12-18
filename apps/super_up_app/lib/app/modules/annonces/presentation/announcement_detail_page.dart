@@ -15,7 +15,9 @@ import 'package:super_up/app/modules/annonces/presentation/boost_annoncement.dar
 import 'package:super_up/app/modules/annonces/presentation/image_viewer.dart';
 import 'package:super_up/app/modules/home/mobile/rooms_tab/controllers/rooms_tab_controller.dart';
 import 'package:super_up/app/modules/peer_profile/controllers/peer_profile_controller.dart';
-import 'package:v_chat_sdk_core/v_chat_sdk_core.dart' show Annonces;
+import 'package:super_up_core/super_up_core.dart';
+import 'package:v_chat_sdk_core/v_chat_sdk_core.dart'
+    show Annonces, VChatController;
 // import 'package:super_up_core/super_up_core.dart';
 // import 'package:super_up/app/modules/home/models/announcement_model.dart';
 
@@ -284,14 +286,11 @@ class _AnnouncementDetailPageState extends State<AnnouncementDetailPage> {
               if (!widget.announcement.isMine)
                 ElevatedButton(
                   onPressed: () async {
-                    await GetIt.I
-                        .get<AnnonceController>()
-                        .createConversation(widget.announcement.id);
                     // if (AppAuth.myProfile == null) {
                     //   context.toPageAndRemoveAllWithOutAnimation(LoginView());
                     //   return;
                     // }
-                    // _showContactModal();
+                    _showContactModal();
                   },
                   style: ElevatedButton.styleFrom(
                     // backgroundColor: primary,
@@ -352,7 +351,7 @@ class _AnnouncementDetailPageState extends State<AnnouncementDetailPage> {
   void _showContactModal() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       builder: (modalContext) {
         // Use a different context name to avoid confusion
         return Container(
@@ -391,29 +390,30 @@ class _AnnouncementDetailPageState extends State<AnnouncementDetailPage> {
                 const Divider(color: Colors.grey),
                 // Date Filter
                 ListTile(
-                  leading: SvgPicture.asset("assets/icons/chat.svg"),
+                  leading: Icon(Icons.chat_bubble_outline),
+                  //  SvgPicture.asset("assets/icons/chat.svg"),
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Via Message',
-                      style: TextStyle(
-                          // color: white,
-                          fontSize: 16)),
+                  title:
+                      const Text('Via Message', style: TextStyle(fontSize: 16)),
                   trailing: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.arrow_forward_ios,
-                        // color: primary,
                         size: 16,
                       ),
                     ],
                   ),
-                  onTap: () {
-                    if (widget.announcement.user != null) {
-                      final user = widget.announcement.user!;
-                      PeerProfileController profileController =
-                          PeerProfileController(user.id);
-                      profileController.openChatWith(context);
-                    }
+                  onTap: () async {
+                    await GetIt.I
+                        .get<AnnonceController>()
+                        .createConversation(widget.announcement.id, context)
+                        .then((e) async {
+                      if (e != null) {
+                        VChatController.I.vNavigator.messageNavigator
+                            .toMessagePage(context, e);
+                      }
+                    });
                   },
                 ),
               ],

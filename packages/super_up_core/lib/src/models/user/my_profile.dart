@@ -32,7 +32,7 @@ class AuthMethod {
 
   factory AuthMethod.fromMap(Map<String, dynamic> map) {
     return AuthMethod(
-      type:RegisterMethod.values.byName(map['type'] as String)  ,
+      type: RegisterMethod.values.byName(map['type'] as String),
       identifier: map['identifier'] as String,
     );
   }
@@ -47,7 +47,7 @@ class SMyProfile {
   final String deviceId;
   final String? bio;
   final List<UserRoles> roles;
-  final AuthMethod authMethod;
+  final AuthMethod? authMethod;
   final UserPrivacy userPrivacy;
 
   ///getters
@@ -62,7 +62,7 @@ class SMyProfile {
     required this.registerStatus,
     required this.language,
     required this.deviceId,
-    required this.authMethod,
+    this.authMethod,
     required this.bio,
     required this.roles,
     required this.userPrivacy,
@@ -84,7 +84,7 @@ class SMyProfile {
         ...baseUser.toMap(),
         'registerStatus': registerStatus.name,
         'bio': bio,
-        'authMethod': authMethod.toMap(),
+        'authMethod': authMethod?.toMap(),
         'roles': roles.map((e) => e.name).toList(),
         'isPrime': isPrime,
         'hasBadge': hasBadge,
@@ -105,16 +105,18 @@ class SMyProfile {
           ? const UserPrivacy.defaults()
           : UserPrivacy.fromMap(map['me']['userPrivacy']),
       roles: (map['me']['roles'] as List?)
-          ?.map((e) => UserRoles.values.byName(e.toString()))
-          .toList() ??
+              ?.map((e) => UserRoles.values.byName(e.toString()))
+              .toList() ??
           [],
       language: Locale(
         (map['currentDevice'] as Map<String, dynamic>)['language'] as String,
       ),
-      authMethod:  AuthMethod.fromMap(map['me']['authMethod'] as Map<String, dynamic>),
+      authMethod: map['me']['authMethod'] is Map
+          ? AuthMethod.fromMap(map['me']['authMethod'] as Map<String, dynamic>)
+          : null,
       deviceId: (map['currentDevice'] as Map<String, dynamic>)['_id'] as String,
       registerStatus:
-      RegisterStatus.values.byName(map['me']['registerStatus'] as String),
+          RegisterStatus.values.byName(map['me']['registerStatus'] as String),
     );
   }
 

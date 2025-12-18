@@ -41,7 +41,7 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
+    // final theme = AppTheme.of(context);
     final backgroundColor = this.backgroundColor ??
         (type == AppButtonType.filled
             ? AppTheme.primaryGreen

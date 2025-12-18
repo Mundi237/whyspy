@@ -98,6 +98,15 @@ class SocialLoginAuth {
           context.pop(); // Dismiss loading
           try {
             await FirebaseAuth.instance.signInWithCredential(credential);
+            await profileService.getMyProfile().then((e) async {
+              Navigator.pop(context);
+              await VAppPref.setMap(SStorageKeys.myProfile.name, e.toMap());
+              await VAppPref.setBool(SStorageKeys.isLogin.name, true);
+              _homeNav(context);
+            });
+            // print(result);
+            return;
+
             AppNavigation.toPage(
               context,
               ContinueGetDataScreen(
@@ -173,12 +182,13 @@ class SocialLoginAuth {
       );
       final firebaseUser =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      VAppAlert.showLoading(context: context, isDismissible: true);
+      // VAppAlert.showLoading(context: context, isDismissible: true);
       if (firebaseUser.user != null) {
         final user = firebaseUser.user!;
         await user.updateDisplayName(googleUser.displayName);
         await user.updatePhotoURL(googleUser.photoUrl);
         await user.reload();
+
         final socialUser = SocialUser(
           authId: user.uid,
           email: user.email,
@@ -187,23 +197,31 @@ class SocialLoginAuth {
           identifier: user.uid,
           type: RegisterMethod.gmail,
         );
+        await refreshToken();
+        await profileService.getMyProfile().then((e) async {
+          Navigator.pop(context);
+          await VAppPref.setMap(SStorageKeys.myProfile.name, e.toMap());
+          await VAppPref.setBool(SStorageKeys.isLogin.name, true);
+          _homeNav(context);
+        });
 
+        return;
         // Verify if user exists in the system
-        final authRes = await authService.checkMethod(
-          authType: RegisterMethod.gmail,
-          authId: user.uid,
-        );
+        // final authRes = await authService.checkMethod(
+        //   authType: RegisterMethod.gmail,
+        //   authId: user.uid,
+        // );
 
-        Utils.printLog("authRes from google login : $authRes");
+        // Utils.printLog("authRes from google login : $authRes");
 
-        if (authRes == null) {
-          // User must complete data
-          AppNavigation.toPage(
-            context,
-            ContinueGetDataScreen(socialUser: socialUser),
-          );
-          return;
-        }
+        // if (authRes == null) {
+        //   // User must complete data
+        //   AppNavigation.toPage(
+        //     context,
+        //     ContinueGetDataScreen(socialUser: socialUser),
+        //   );
+        //   return;
+        // }
         // User exists, proceed to login
         await vSafeApiCall<SMyProfile>(
           onLoading: () async {

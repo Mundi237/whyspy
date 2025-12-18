@@ -65,6 +65,13 @@ class _VChatPageState extends State<VChatPage> {
     widget.controller._init(context, widget.language);
   }
 
+  String tab = "All";
+  List<String> tabs = [
+    'All',
+    "CTA",
+    "Groups",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -205,6 +212,40 @@ class _VChatPageState extends State<VChatPage> {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ...tabs.map(
+                                  (tab) => InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        this.tab = tab;
+                                      });
+                                    },
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 1, horizontal: 20),
+                                      margin: const EdgeInsets.only(right: 10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: this.tab == tab
+                                            ? Colors.grey.shade600
+                                            : Colors.grey.shade900,
+                                      ),
+                                      child: Text(
+                                        tab,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                             const SizedBox(
                               height: 5,
                             ),
@@ -213,6 +254,7 @@ class _VChatPageState extends State<VChatPage> {
                   SliverList.separated(
                     itemBuilder: (context, index) {
                       final room = value.data[index];
+
                       return StreamBuilder<VRoom>(
                         key: UniqueKey(),
                         stream: widget
@@ -220,7 +262,7 @@ class _VChatPageState extends State<VChatPage> {
                             .where((e) => e.id == room.id),
                         initialData: room,
                         builder: (context, snapshot) {
-                          return VRoomItem(
+                          final vRommWidget = VRoomItem(
                             isIconOnly: widget.useIconForRoomItem,
                             isSelected: snapshot.data!.id ==
                                 widget.controller.selectedRoomId,
@@ -236,6 +278,17 @@ class _VChatPageState extends State<VChatPage> {
                               }
                             },
                           );
+
+                          if (room.isCta && tab == "CTA") {
+                            return vRommWidget;
+                          }
+                          if (!room.isCta && tab == "CTA") {
+                            return const SizedBox.shrink();
+                          }
+                          if (!room.isCta && tab != "CTA") {
+                            return vRommWidget;
+                          }
+                          return const SizedBox.shrink();
                         },
                       );
                     },

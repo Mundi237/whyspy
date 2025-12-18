@@ -172,28 +172,51 @@ class SqlRoomImp extends BaseLocalRoomRepo {
     return maps.map((e) => VRoom.fromLocalMap(e)).toList();
   }
 
+  // String _prefixRoomFilterQuery(String? where, int? limit) {
+  //   // If where clause is provided, it should not include WHERE keyword
+  //   // as it will be combined with the existing WHERE clause
+  //   final cleanWhere = where != null && where.isNotEmpty
+  //       ? where.replaceFirst(RegExp(r'^\s*WHERE\s+', caseSensitive: false), '')
+  //       : null;
+
+  //   return '''
+  //   SELECT r.*, m.*
+  //   FROM ${RoomTable.tableName} r
+  //   INNER JOIN (
+  //     SELECT *,
+  //       ROW_NUMBER() OVER (
+  //         PARTITION BY ${MessageTable.columnRoomId}
+  //         ORDER BY ${MessageTable.columnId} DESC
+  //       ) as rn
+  //     FROM ${MessageTable.tableName}
+  //   ) m ON r.${RoomTable.columnId} = m.${MessageTable.columnRoomId}
+  //   WHERE m.rn = 1
+  //   ${cleanWhere != null && cleanWhere.isNotEmpty ? 'AND $cleanWhere' : ''}
+  //   ORDER BY m.${MessageTable.columnId} DESC
+  //   ${limit != null ? 'LIMIT $limit' : ''}
+  // ''';
+  // }
   String _prefixRoomFilterQuery(String? where, int? limit) {
-    // If where clause is provided, it should not include WHERE keyword
-    // as it will be combined with the existing WHERE clause
     final cleanWhere = where != null && where.isNotEmpty
-        ? where.replaceFirst(RegExp(r'^\s*WHERE\s+', caseSensitive: false), '')
+        ? where.replaceFirst(
+            RegExp(r'^\s*WHERE\s+', caseSensitive: false),
+            '',
+          )
         : null;
-    
+
     return '''
-    SELECT r.*, m.* 
-    FROM ${RoomTable.tableName} r
-    INNER JOIN (
-      SELECT *,
-        ROW_NUMBER() OVER (
-          PARTITION BY ${MessageTable.columnRoomId} 
-          ORDER BY ${MessageTable.columnId} DESC
-        ) as rn
-      FROM ${MessageTable.tableName}
-    ) m ON r.${RoomTable.columnId} = m.${MessageTable.columnRoomId}
-    WHERE m.rn = 1
-    ${cleanWhere != null && cleanWhere.isNotEmpty ? 'AND $cleanWhere' : ''} 
-    ORDER BY m.${MessageTable.columnId} DESC  
-    ${limit != null ? 'LIMIT $limit' : ''} 
+  SELECT r.*, m.*
+  FROM ${RoomTable.tableName} r
+  INNER JOIN ${MessageTable.tableName} m
+    ON r.${RoomTable.columnId} = m.${MessageTable.columnRoomId}
+  WHERE m.${MessageTable.columnId} = (
+    SELECT MAX(${MessageTable.columnId})
+    FROM ${MessageTable.tableName}
+    WHERE ${MessageTable.columnRoomId} = r.${RoomTable.columnId}
+  )
+  ${cleanWhere != null && cleanWhere.isNotEmpty ? 'AND $cleanWhere' : ''}
+  ORDER BY m.${MessageTable.columnId} DESC
+  ${limit != null ? 'LIMIT $limit' : ''}
   ''';
   }
 
@@ -296,8 +319,8 @@ class SqlRoomImp extends BaseLocalRoomRepo {
 
   @override
   Future<int> getUnReadMessagesCount() async {
-    final maps =
-        await _database.rawQuery("SELECT SUM(${RoomTable.columnUnReadCount}) FROM $_table");
+    final maps = await _database
+        .rawQuery("SELECT SUM(${RoomTable.columnUnReadCount}) FROM $_table");
 
     if (maps.isEmpty) {
       return 0;

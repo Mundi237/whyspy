@@ -2,13 +2,16 @@ import 'dart:io';
 
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:s_translation/generated/l10n.dart';
 import 'package:super_up/app/modules/annonces/cores/appstate.dart';
+import 'package:super_up/app/modules/annonces/cores/error_handler.dart';
 import 'package:super_up/app/modules/annonces/datas/models/city.dart';
 import 'package:super_up/app/modules/annonces/datas/services/annonce_service.dart';
 import 'package:super_up/app/modules/annonces/datas/utils.dart';
 import 'package:super_up/app/modules/annonces/presentation/announcement_detail_page.dart';
 import 'package:super_up_core/super_up_core.dart';
-import 'package:v_chat_sdk_core/v_chat_sdk_core.dart' show Annonces, Categorie;
+import 'package:v_chat_sdk_core/v_chat_sdk_core.dart'
+    show Annonces, Categorie, VRoom;
 
 class AnnonceController extends ChangeNotifier {
   final AnnonceService annonceService;
@@ -107,8 +110,20 @@ class AnnonceController extends ChangeNotifier {
     }
   }
 
-  Future<void> createConversation(String annonceId) async {
-    await annonceService.createConversation(annonceId);
+  Future<VRoom?> createConversation(
+      String annonceId, BuildContext context) async {
+    try {
+      final result = await annonceService.createConversation(annonceId);
+      Utils.printLog(result);
+      return VRoom.fromMap(result);
+    } catch (e) {
+      Utils.logger(e.toString());
+      VAppAlert.showOkAlertDialog(
+          context: context,
+          title: S.of(context).error,
+          content: returnError(e).error);
+      return null;
+    }
   }
 
   searchVille(String val) {
@@ -197,7 +212,7 @@ class AnnonceController extends ChangeNotifier {
       if (annonceState.value.hasNotNullData) {
         VAppAlert.showSuccessSnackBar(
             message: "Annoncement added successfully", context: context);
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
         context.toPage(
           AnnouncementDetailPage(
             announcement: annonceState.value.data!,
