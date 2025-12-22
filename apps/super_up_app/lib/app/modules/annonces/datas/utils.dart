@@ -196,3 +196,10 @@ extension StringCapatilize on String {
     return this[0].toUpperCase() + substring(1);
   }
 }
+
+extension ContextExtentions on BuildContext {
+  Color? get body1TextColor => Theme.of(this).textTheme.bodyMedium?.color;
+  Color? get title1TextColor => Theme.of(this).textTheme.titleMedium?.color;
+  Color? get scaffoldColors => Theme.of(this).scaffoldBackgroundColor;
+  Color? get iconsColors => Theme.of(this).iconTheme.color;
+}

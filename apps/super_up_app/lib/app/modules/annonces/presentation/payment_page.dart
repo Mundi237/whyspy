@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pinput/pinput.dart';
+// import 'package:pinput/pinput.dart';
 import 'package:s_translation/generated/l10n.dart';
 import 'package:super_up/app/core/widgets/s_app_button.dart';
 import 'package:super_up/app/modules/annonces/cores/appstate.dart';
 import 'package:super_up/app/modules/annonces/datas/models/package.dart';
 import 'package:super_up/app/modules/annonces/datas/models/package_transaction.dart';
+import 'package:super_up/app/modules/annonces/presentation/wallet_transactions/recap_page.dart';
 import 'package:super_up/app/modules/annonces/providers/credit_provider.dart';
 import 'package:super_up_core/super_up_core.dart';
 
@@ -23,7 +24,7 @@ class _PaymentPageState extends State<PaymentPage> {
   final TextEditingController phoneController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  _validatePhoneNumber(String phone) {
+  String? _validatePhoneNumber(String phone) {
     if (provider == 'mtn') {
       if (!mtnCamerounPattern.hasMatch(phone)) {
         return "Invalid MTN phone number";
@@ -36,7 +37,7 @@ class _PaymentPageState extends State<PaymentPage> {
     return null;
   }
 
-  _autoSelectProvider() {
+  void _autoSelectProvider() {
     if (phoneController.text.length == 9) {
       if (mtnCamerounPattern.hasMatch(phoneController.text)) {
         setState(() {
@@ -55,6 +56,7 @@ class _PaymentPageState extends State<PaymentPage> {
     final colorScheme = Theme.of(context).colorScheme;
     final CreditProvider creditProvider = GetIt.I<CreditProvider>();
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
             widget.package.name,
@@ -235,7 +237,25 @@ class _PaymentPageState extends State<PaymentPage> {
                         return;
                       }
                       if (formKey.currentState!.validate()) {
-                        creditProvider.purchasePackage(widget.package.id);
+                        creditProvider.selecTPackage(widget.package);
+                        context.toPage(
+                          RecapPage(
+                            data: {
+                              "amount": "${widget.package.amount} XAF",
+                              "provider_name": provider == "mtn"
+                                  ? "MTN Mobile Money"
+                                  : "Orange Money",
+                              "phone": phoneController.text,
+                              "provider_image": provider == 'mtn'
+                                  ? "assets/momo.png"
+                                  : "assets/om.png",
+                              'title':
+                                  "Achat du pakcage ${widget.package.name}",
+                              'type': "purchase"
+                            },
+                          ),
+                        );
+                        // creditProvider.purchasePackage(widget.package.id);
                       }
                     },
                   );

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:super_up/app/modules/annonces/datas/services/api_services.dart';
+import 'package:super_up/app/modules/onboarding/screens/onbording_page1.dart';
 import 'package:super_up_core/super_up_core.dart';
 import 'package:s_translation/generated/l10n.dart';
 import 'package:v_chat_sdk_core/v_chat_sdk_core.dart';
@@ -127,8 +128,13 @@ class SplashController extends SLoadingController<String> {
         );
       }
 
+      // context.toPage(
+      //   const PhoneAuthentication(),
+      //   withAnimation: true,
+      //   removeAll: true,
+      // );
       context.toPage(
-        const PhoneAuthentication(),
+        const OnbordingPage1(),
         withAnimation: true,
         removeAll: true,
       );

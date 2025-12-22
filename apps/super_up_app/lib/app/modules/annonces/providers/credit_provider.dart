@@ -26,6 +26,12 @@ class CreditProvider extends ChangeNotifier {
   ValueNotifier<AppState<CrediWallet>> wallet =
       ValueNotifier<AppState<CrediWallet>>(AppState());
 
+  Package? selectedPackage;
+
+  void selecTPackage(Package package) {
+    selectedPackage = package;
+  }
+
   Future<void> getWallet() async {
     try {
       wallet.value = AppState.loading();
@@ -52,11 +58,11 @@ class CreditProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> purchasePackage(String packageId) async {
+  Future<void> purchasePackage({VoidCallback? onsuCess}) async {
     try {
       packageTransaction.value = AppState.loading();
       notifyListeners();
-      final data = await creditService.purchasePackage(packageId);
+      final data = await creditService.purchasePackage(selectedPackage!.id);
       packageTransaction.value = AppState.completed(data);
       notifyListeners();
     } catch (e) {
@@ -70,11 +76,17 @@ class CreditProvider extends ChangeNotifier {
               "Une erreur est survenue lors de l'achat du forfait. Veuillez réessayer.",
         );
       } else if (packageTransaction.value.hasNotNullData) {
-        getWallet();
-        VAppAlert.showSuccessSnackBarWithoutContext(
-          message:
-              "Votre achat est en cours de traitement. Veuillez patienter...",
-        );
+        if (packageTransaction.value.hasError) {
+          getWallet();
+          if (onsuCess == null) {
+            VAppAlert.showSuccessSnackBarWithoutContext(
+              message:
+                  "Votre achat est en cours de traitement. Veuillez patienter...",
+            );
+          } else {
+            onsuCess.call();
+          }
+        }
       }
     }
   }

@@ -178,3 +178,115 @@ class PackageItem extends StatelessWidget {
     );
   }
 }
+
+class NewPackgeItems extends StatelessWidget {
+  const NewPackgeItems({
+    super.key,
+    required this.package,
+    this.isSelected = false,
+    this.onTap,
+  });
+  final Function(Package package)? onTap;
+  final Package package;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        if (onTap != null) {
+          onTap!(package);
+        }
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 275),
+        transformAlignment: Alignment.bottomCenter,
+        height: 160,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: isSelected ? AppColors.iconGrayColor : Colors.grey,
+            ),
+            borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? AppColors.iconGrayColor.withOpacity(0.3)
+                      : null,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Payer",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        height: 0.9,
+                        color: isSelected ? AppColors.typingColor : Colors.grey,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "${package.amount.toInt()} XAF ",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color:
+                              isSelected ? AppColors.typingColor : Colors.grey,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      package.name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13,
+                        height: 0.9,
+                        color: isSelected ? AppColors.typingColor : Colors.grey,
+                      ),
+                    ),
+                    SizedBox(height: 5)
+                  ],
+                ),
+              ),
+            ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 275),
+              transformAlignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? AppColors.iconGrayColor
+                    : Colors.grey.shade700.withOpacity(0.7),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(20),
+                ),
+              ),
+              height: 50,
+              child: Center(
+                child: Text(
+                  "${package.credits} \nCredits",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    height: 0.9,
+                    color: isSelected ? Colors.white : Colors.grey,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -181,6 +181,9 @@ class _SettingsTabViewState extends State<SettingsTabView> {
                       ],
                     ),
                     CupertinoListSection(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       dividerMargin: 0,
                       topMargin: 30,
                       hasLeading: false,

@@ -66,32 +66,32 @@ class _PhoneAuthenticationState extends State<PhoneAuthentication> {
                 bottom: Radius.circular(8),
               ),
               image: DecorationImage(
-                image: AssetImage("assets/bg_whyspee.jpg"),
+                image: AssetImage("assets/loginchat.png"),
                 fit: BoxFit.cover,
               ),
             ),
-            child: Container(
-              height: MediaQuery.sizeOf(context).height * 0.5,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: RadialGradient(colors: [
-                  Colors.white.withOpacity(0.4),
-                  Colors.white.withOpacity(0.3),
-                  Colors.white.withOpacity(0.2),
-                  Colors.white.withOpacity(0.1),
-                  Colors.black.withOpacity(0.1),
-                  Colors.black.withOpacity(0.2),
-                  Colors.black.withOpacity(0.3),
-                  Colors.black.withOpacity(0.4),
-                ]),
-              ),
-              child: Center(
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundImage: AssetImage("assets/logo.jpg"),
-                ),
-              ),
-            ),
+            // child: Container(
+            //   height: MediaQuery.sizeOf(context).height * 0.5,
+            //   width: double.infinity,
+            //   decoration: BoxDecoration(
+            //     gradient: RadialGradient(colors: [
+            //       Colors.white.withOpacity(0.4),
+            //       Colors.white.withOpacity(0.3),
+            //       Colors.white.withOpacity(0.2),
+            //       Colors.white.withOpacity(0.1),
+            //       Colors.black.withOpacity(0.1),
+            //       Colors.black.withOpacity(0.2),
+            //       Colors.black.withOpacity(0.3),
+            //       Colors.black.withOpacity(0.4),
+            //     ]),
+            //   ),
+            //   child: Center(
+            //     child: CircleAvatar(
+            //       radius: 70,
+            //       backgroundImage: AssetImage("assets/logo.jpg"),
+            //     ),
+            //   ),
+            // ),
           ),
           SafeArea(
             child: Form(
@@ -110,7 +110,7 @@ class _PhoneAuthenticationState extends State<PhoneAuthentication> {
                       SizedBox(
                         height: MediaQuery.sizeOf(context).height * 0.4,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 30),
                       Text(
                         // S.of(context).enterYourPhoneNumber,
                         "Login",
@@ -135,9 +135,9 @@ class _PhoneAuthenticationState extends State<PhoneAuthentication> {
                         const SizedBox(height: 16),
                         _buildErrorMessage(context),
                       ],
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 35),
                       _buildSubmitButton(context),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 15),
                       // OR component
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -166,7 +166,7 @@ class _PhoneAuthenticationState extends State<PhoneAuthentication> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
                       AppButton(
                         text: "Google Sign In",
                         onPressed: _isLoading ? null : _handleGoogleSignIn,

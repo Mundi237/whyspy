@@ -95,11 +95,11 @@ class SocialLoginAuth {
         verificationCompleted: (PhoneAuthCredential credential) async {
           // Auto-verification completed (mainly on Android)
           print("error in verificationCompleted $credential");
-          context.pop(); // Dismiss loading
+          // context.pop(); // Dismiss loading
           try {
             await FirebaseAuth.instance.signInWithCredential(credential);
             await profileService.getMyProfile().then((e) async {
-              Navigator.pop(context);
+              // Navigator.pop(context);
               await VAppPref.setMap(SStorageKeys.myProfile.name, e.toMap());
               await VAppPref.setBool(SStorageKeys.isLogin.name, true);
               _homeNav(context);
@@ -107,17 +107,18 @@ class SocialLoginAuth {
             // print(result);
             return;
 
-            AppNavigation.toPage(
-              context,
-              ContinueGetDataScreen(
-                socialUser: SocialUser(
-                  authId: phoneNumber,
-                  type: RegisterMethod.phone,
-                ),
-              ),
-            );
+            // AppNavigation.toPage(
+            //   context,
+            //   ContinueGetDataScreen(
+            //     socialUser: SocialUser(
+            //       authId: phoneNumber,
+            //       type: RegisterMethod.phone,
+            //     ),
+            //   ),
+            // );
           } catch (e) {
             print("error in verificationCompleted $e");
+            Navigator.pop(context);
             _handleFirebaseAuthError(context, e);
           }
         },

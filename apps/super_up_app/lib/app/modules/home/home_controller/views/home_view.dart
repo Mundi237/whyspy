@@ -88,10 +88,9 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                   tooltip: S.of(context).chats,
                 ),
                 BottomNavigationBarItem(
-                  //rays
-                  icon: const Icon(CupertinoIcons.play_circle),
-                  label: S.of(context).stories,
-                  tooltip: S.of(context).stories,
+                  icon: const Icon(CupertinoIcons.add_circled),
+                  label: "Create", // S.of(context).create,
+                  tooltip: "Create", // S.of(context).create,
                 ),
                 BottomNavigationBarItem(
                   icon: const Icon(CupertinoIcons.phone),
@@ -99,10 +98,12 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                   tooltip: S.of(context).phone,
                 ),
                 BottomNavigationBarItem(
-                  icon: const Icon(CupertinoIcons.add_circled),
-                  label: "Create", // S.of(context).create,
-                  tooltip: "Create", // S.of(context).create,
+                  //rays
+                  icon: const Icon(CupertinoIcons.play_circle),
+                  label: S.of(context).stories,
+                  tooltip: S.of(context).stories,
                 ),
+
                 // BottomNavigationBarItem(
                 //   icon: const Icon(CupertinoIcons.person_2),
                 //   label: S.of(context).users,
@@ -114,7 +115,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     builder: (context, value, child) {
                       return Stack(
                         children: [
-                          const Icon(CupertinoIcons.settings),
+                          const Icon(CupertinoIcons.profile_circled),
                           PositionedDirectional(
                             end: 0,
                             child: ChatUnReadWidget(
@@ -142,8 +143,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 // return const StoryTabView();
               }
               if (index == 2) {
+                return const CreateAnnouncementPage();
                 // return const CallsTabView();
-                return const StoryTabView();
               }
               if (index == 3) {
                 // return const UsersTabView();
@@ -151,7 +152,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
               }
               if (index == 4) {
                 // return const UsersTabView();
-                return const CreateAnnouncementPage();
+                return const StoryTabView();
               }
               // if (index == 5) {
               //   // return const SettingsTabView();
